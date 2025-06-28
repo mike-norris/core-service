@@ -1,0 +1,23 @@
+logging:
+  level:
+    root: DEBUG
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  application:
+    name : application
+  profiles:
+    active: local
+  cloud:
+    config:
+      fast-fail: true
+      retry:
+        max-attempts: 5
+        initial-interval: 1500
+        max-interval: 7500
+        multiplier: 1.1
+      import-check:
+        enabled: false
+      uri: http://127.0.0.1:8080/aconfig,http://10.60.143.101:8080/aconfig,http://10.60.143.56:8080/aconfig,http://10.60.143.64:8080/aconfig,https://config.orlabs.com/config

@@ -1,0 +1,17 @@
+logging:
+  level:
+    root: DEBUG
+spring:
+  application:
+    name : application
+  cloud:
+    config:
+      fast-fail: true
+      retry:
+        max-attempts: 3
+        initial-interval: 1500
+        max-interval: 7500
+        multiplier: 1.1
+      import-check:
+        enabled: false
+      uri: http://127.0.0.1:8080/aconfig

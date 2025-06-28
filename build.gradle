@@ -1,0 +1,183 @@
+plugins {
+	id 'org.springframework.boot' version '3.4.0'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'java'
+	id 'war'
+	id 'groovy'
+	id 'idea'
+	id 'jacoco'
+}
+
+group = 'com.openrangelabs'
+version = '0.0.2-SNAPSHOT'
+
+java {
+	sourceCompatibility = JavaLanguageVersion.of(17)
+}
+
+war {
+	enabled = true
+	webAppDirectory = file('src/main')
+}
+
+repositories {
+	mavenCentral()
+//	maven { url "https://dl.bintray.com/epam/reportportal" }
+	maven { url "https://m2proxy.atlassian.com/repository/public" }
+}
+
+configurations {
+	providedRuntime
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+ext {
+	set('springCloudVersion', "2024.0.0")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.retry:spring-retry'
+	implementation 'org.springframework.cloud:spring-cloud-starter'
+	implementation 'org.springframework.ldap:spring-ldap-core'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+//	implementation('org.springframework.boot:spring-boot-starter-logging') {
+//		exclude group: 'commons-logging', module: 'commons-logging'
+//	}
+
+	implementation 'com.openrangelabs.middleware:common-lib:2024.12.7'
+
+	implementation group: "com.twilio.sdk", name: "twilio", version: "9.2.0"
+	implementation 'com.sendgrid:sendgrid-java:4.9.3'
+
+	// add in swagger api documentation
+	implementation 'org.springdoc:springdoc-openapi-ui'
+
+	// Include the sdk as a dependency
+	implementation 'com.microsoft.graph:microsoft-graph-auth:0.3.0'
+	implementation('com.microsoft.graph:microsoft-graph:2.10.0'){
+		exclude group: 'com.sun.jersey', module: 'jersey-server'
+	}
+
+	// Emailer - jakartaMail
+	implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+	implementation 'com.braintreepayments.gateway:braintree-java:2.109.0'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	// SSH Tunnel
+	implementation 'com.jcraft:jsch:0.1.55'
+
+	implementation 'com.amazonaws:aws-java-sdk:1.12.26'
+
+	//added for signnow
+	//compileOnly 'com.sun.jersey:jersey-server'
+	//implementation files('libs/api-client-lib-1.0.0-SNAPSHOT.jar')
+
+	implementation 'jakarta.ws.rs:all:3.1.0'
+	implementation "org.glassfish.jersey.core:jersey-client:2.27"
+	implementation "org.glassfish.jersey.media:jersey-media-json-jackson:2.27"
+	implementation "org.glassfish.jersey.media:jersey-media-multipart:2.27"
+	implementation "org.glassfish.jersey.inject:jersey-hk2:2.27"
+
+	implementation "jakarta.activation:jakarta.activation-api:2.1.2"
+	implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
+
+	implementation "com.sun.xml.bind:jaxb-core:2.3.0"
+	implementation "com.sun.xml.bind:jaxb-impl:2.3.0"
+
+	implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+	implementation "com.javafx:scenario:1.0.1"
+
+	implementation "commons-io:commons-io:2.11.0"
+
+//	implementation "clojure-interop:javax.imageio:1.0.5"
+
+	//JIRA
+	implementation 'com.atlassian.jira:jira-rest-java-client-api:5.2.0'
+	implementation 'com.atlassian.jira:jira-rest-java-client-core:5.2.0'
+	implementation 'io.atlassian.fugue:fugue:4.7.2'
+
+	implementation 'org.springframework:spring-test'
+	implementation 'org.jetbrains:annotations:21.0.1'
+
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.11'
+
+	// Salesforce
+//	implementation 'com.frejo:force-rest-api:0.0.45'
+// https://mvnrepository.com/artifact/com.github.salesforce-marketingcloud/fuelsdk
+//	implementation group: 'com.github.salesforce-marketingcloud', name: 'fuelsdk', version: '1.5.0'
+
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+//	implementation 'com.google.code.gson:gson:2.10.1'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-data-ldap'
+
+	implementation 'org.bonitasoft.web:bonita-java-client:2.0.0'
+
+
+	// Log
+	implementation 'ch.qos.logback:logback-classic'
+	implementation 'org.codehaus.janino:janino'
+
+	annotationProcessor 'org.projectlombok:lombok'
+
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+	//Lombok
+	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'com.google.guava:guava:28.0-jre'
+	compileOnly 'org.postgresql:postgresql:42.7.2'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// https://mvnrepository.com/artifact/com.rometools/rome
+	implementation group: 'com.rometools', name: 'rome', version: '2.1.0'
+
+	// Spring Boot Migration - Remove after successful migration
+//	runtime("org.springframework.boot:spring-boot-properties-migrator")
+
+	// Apache POI libraries for Excel exports
+	implementation 'org.apache.poi:poi:5.2.2'
+	implementation 'org.apache.poi:poi-ooxml:5.2.2'
+
+	testImplementation 'cglib:cglib-nodep:3.3.0'
+	testImplementation 'org.objenesis:objenesis:3.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.codehaus.groovy:groovy-all:3.0.9'
+	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+	testImplementation 'junit:junit:4.13.2'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+compileJava {
+	options.annotationProcessorPath = configurations.annotationProcessor
+}
+
+allprojects {
+	gradle.projectsEvaluated {
+		tasks.withType(JavaCompile) {
+			options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+		}
+	}
+}

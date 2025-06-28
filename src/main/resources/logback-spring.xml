@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOGS" value="${catalina.base}/logs" />
+    <springProperty scope="context" name="ENVIRONMENT" source="app.environment"/>
+
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %d %p %C{1} [%t] %yellow(%logger{40}.%M\(%class{0}.java:%line\)) - %msg%throwable%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/middleware-core-app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/middleware-core-app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>400MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %d %p %C{1} [%t] %yellow(%logger{40}.%M\(%class{0}.java:%line\)) - %msg%throwable%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- LOG everything at INFO level -->
+    <root level="warn">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </root>
+
+    <if condition='property("ENVIRONMENT").contains("local")'>
+        <then>
+            <logger name="com.orlabs.services" level="trace" additivity="false">
+                <appender-ref ref="Console" />
+            </logger>
+        </then>
+    </if>
+
+    <if condition='property("ENVIRONMENT").contains("test")'>
+        <then>
+            <logger name="com.orlabs.services" level="info" additivity="false">
+                <appender-ref ref="RollingFile" />
+            </logger>
+        </then>
+    </if>
+
+    <if condition='property("ENVIRONMENT").contains("stg")'>
+        <then>
+            <logger name="com.orlabs.services" level="warn" additivity="false">
+                <appender-ref ref="RollingFile" />
+            </logger>
+        </then>
+    </if>
+
+    <if condition='property("ENVIRONMENT").contains("demo")'>
+        <then>
+            <logger name="com.orlabs.services" level="warn" additivity="false">
+                <appender-ref ref="RollingFile" />
+            </logger>
+        </then>
+    </if>
+
+    <if condition='property("ENVIRONMENT").contains("production")'>
+        <then>
+            <logger name="com.orlabs.services" level="error" additivity="false">
+                <appender-ref ref="RollingFile" />
+            </logger>
+        </then>
+    </if>
+
+</configuration>
